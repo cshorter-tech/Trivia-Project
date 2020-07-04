@@ -13,15 +13,20 @@ Survey.prototype.nextIndex = function () {
 }
 
 Survey.prototype.lastIndex = function () {
-    return this.currentIndex === this.questions.length;
+    return this.currentIndex == this.questions.length;
 }
 
-Survey.prototype.guess == function (userInput) {
+Survey.prototype.guess = function (userInput) {
     const currentQuestion = this.questions[this.currentIndex]
     if (currentQuestion.isCorrect(userInput)) {
         this.score++
     }
     this.nextIndex();
+}
+
+Survey.prototype.reset = function () {
+    this.score = 0;
+    this.currentIndex = 0;
 }
 
 

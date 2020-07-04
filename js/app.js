@@ -7,9 +7,9 @@ const App = (function () {
     const surveyEl = document.querySelector(".survey")
     const surveyQuestionEl = document.querySelector(".survey__question")
     const surveyTrackerEl = document.querySelector(".survey__tracker")
-    const taglineEl = document.querySelector(".survey__tagline")
     const surveyChoicesEl = document.querySelector(".survey__choices")
     const progressInnerEl = document.querySelector(".progress__bar-inner")
+    const taglineEl = document.querySelector(".survey__tagline")
     const nextButtonEl = document.querySelector(".next")
     const restartButtonEl = document.querySelector(".restart")
 
@@ -24,7 +24,34 @@ const App = (function () {
 
     const surveyArray = [q1, q2, q3, q4, q5, q6, q7];
     const survey = new Survey(surveyArray);
-    // console.log(survey)
+
+    const listners = () => {
+        nextButtonEl.addEventListener("click", function () {
+            const selectedRadioEl = document.querySelector('input[name="choice"]:checked')
+            const key = Number(selectedRadioEl.getAttribute("data-order"));
+            survey.guess(key);
+            // console.log(survey.score);
+            renderAll();
+        })
+        restartButtonEl.addEventListener("click", function () {
+            survey.reset();
+            renderAll();
+            nextButtonEl.style.opacity = 1;
+        })
+    }
+
+    const renderEndScreen = _ => {
+
+        setValue(surveyQuestionEl, 'Great Job!');
+        setValue(taglineEl, 'Completed!')
+        setValue(surveyTrackerEl, `Your score: ${Math.floor((Number(survey.score) / Number(survey.questions.length)) * 100)}%`)
+        nextButtonEl.style.opacity = 0;
+        progressInnerEl.style.width = 0;
+        renderProgress();
+    }
+
+
+
 
     // Render Components
     const setValue = (elem, value) => {
@@ -38,7 +65,6 @@ const App = (function () {
         setValue(surveyQuestionEl, question)
 
     }
-    // renderQuestion();
 
     const renderChoices = _ => {
         let markup = "";
@@ -51,6 +77,7 @@ const App = (function () {
                 type="radio"
                 name="choice"
                 class="survey__input"
+                data-order="${index}"
                 id="choice${index}"
               />
               <label for="choice${index}" class="survey__label">
@@ -62,31 +89,44 @@ const App = (function () {
         })
         // surveyChoicesEl.innerHTML = markup;
         setValue(surveyChoicesEl, markup)
-
-
     }
-    // renderChoices();
 
     const renderTracker = _ => {
+        const index = survey.currentIndex;
+        setValue(surveyTrackerEl, `${index + 1} of ${survey.questions.length}`)
+    }
+
+    const renderProgress = () => {
+        const indexCurrent = survey.currentIndex;
+        const indexTotal = survey.questions.length;
+        const progress = Math.floor((indexCurrent * 100) / indexTotal);
+        const loadingBar = setInterval(function () {
+            if (indexCurrent == 0) {
+                progressInnerEl.style.width = 0 + "%";
+            } else {
+                progressInnerEl.style.width = progress + "%";
+            }
+        })
 
     }
+
 
 
     const renderAll = () => {
         if (survey.lastIndex()) {
             // 1. render end quiz modale
+            renderEndScreen()
         } else {
             // 1. render suvery question
             renderQuestion();
             // 2. render survey choices
             renderChoices();
             // 3. render survey tracker
+            renderTracker()
             // 4. render survey bar-inner
-
-
+            renderProgress()
         }
     }
-    renderAll()
 
     // console.log(survey.lastIndex());
 
@@ -109,9 +149,13 @@ const App = (function () {
     // Public Methods
     return {
         get: getCounter,
-        set: setCounter
+        set: setCounter,
+        renderAll: renderAll,
+        listners: listners()
     };
 })();
+
+App.renderAll();
 
 // console.log(App.get());
 // App.set(2);
