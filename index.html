@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>World Trivia</title>
+    <link rel="stylesheet" href="/css/styles.css" />
+  </head>
+  <body>
+    <div class="app">
+      <div class="container">
+        <div class="survey">
+          <div class="survey__question-box">
+            <h1 class="survey__question">Who is the king of Pop?</h1>
+            <p class="survey__tracker">1 of 7</p>
+            <div class="progress__bar">
+              <div class="progress__bar-inner"></div>
+            </div>
+            <p class="survey__tagline">Pick an option below!</p>
+          </div>
+          <div class="survey__choices"></div>
+          <ul class="survey__choices">
+            <li class="choice">
+              <input
+                type="radio"
+                name="choice"
+                class="survey__input"
+                id="choice1"
+              />
+              <label for="choice1" class="survey__label">
+                <i></i>
+                Martin Luther King
+              </label>
+            </li>
+            <li class="choice">
+              <input
+                type="radio"
+                name="choice"
+                class="survey__input"
+                id="choice2"
+              />
+              <label for="choice2" class="survey__label">
+                <i></i>
+                Michael Jackson
+              </label>
+            </li>
+            <li class="choice">
+              <input
+                type="radio"
+                name="choice"
+                class="survey__input"
+                id="choice3"
+              />
+              <label for="choice3" class="survey__label">
+                <i></i>
+                Prince
+              </label>
+            </li>
+            <li class="choice">
+              <input
+                type="radio"
+                name="choice"
+                class="survey__input"
+                id="choice4"
+              />
+              <label for="choice4" class="survey__label">
+                <i></i>
+                Earth, Wind & Fire
+              </label>
+            </li>
+          </ul>
+          <div class="survey__footer">
+            <button class="button button__border next">Next</button>
+            <button class="button button__border restart">Restart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="/js/app.js" type="module"></script>
+  </body>
+</html>
